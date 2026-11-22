@@ -5,26 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>AI Trading Desk - Escritório Virtual</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
     body {
-      background: #12151e;
+      background: #0d1017;
       color: #fff;
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
     header {
-      background: #1b202e;
+      background: #161b26;
       padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #2b3245;
-      z-index: 10;
+      border-bottom: 1px solid #262e40;
+      flex-shrink: 0;
     }
-    header h1 { font-size: 15px; font-weight: 700; color: #4ade80; letter-spacing: 0.5px; }
-    header span { font-size: 11px; background: #262d40; padding: 4px 8px; border-radius: 12px; color: #94a3b8; }
+    header h1 { font-size: 14px; font-weight: 800; color: #4ade80; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+    header span { font-size: 10px; font-weight: 700; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); padding: 3px 8px; border-radius: 12px; color: #4ade80; }
 
     #canvas-container {
       flex: 1;
@@ -32,75 +32,77 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(circle at center, #1e2436 0%, #0f121a 100%);
+      background: radial-gradient(circle at center, #1b2234 0%, #0b0e14 100%);
       overflow: hidden;
     }
     canvas {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       touch-action: manipulation;
     }
 
     #log-bar {
-      background: #161a26;
+      background: #131722;
       padding: 8px 12px;
-      font-size: 12px;
-      color: #cbd5e1;
-      border-top: 1px solid #2b3245;
+      font-size: 11.5px;
+      color: #e2e8f0;
+      border-top: 1px solid #262e40;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      flex-shrink: 0;
     }
     #log-bar b { color: #38bdf8; }
 
     #controls {
-      background: #1b202e;
-      padding: 10px;
+      background: #161b26;
+      padding: 8px 10px 14px 10px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      border-top: 2px solid #2b3245;
-      z-index: 10;
+      gap: 6px;
+      border-top: 1px solid #262e40;
+      flex-shrink: 0;
     }
     button {
-      background: #272e42;
+      background: #22293a;
       color: #f8fafc;
-      border: 1px solid #3b4563;
-      padding: 10px 8px;
+      border: 1px solid #333e57;
+      padding: 9px 6px;
       border-radius: 8px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.15s;
+      transition: 0.12s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
     }
-    button:active { transform: scale(0.96); background: #3b82f6; }
-    button.full { grid-column: span 2; background: #166534; border-color: #22c55e; }
-    button.full:active { background: #15803d; }
+    button:active { transform: scale(0.96); background: #2563eb; border-color: #60a5fa; }
+    button.full { grid-column: span 2; background: #15803d; border-color: #22c55e; font-size: 12px; padding: 10px; }
+    button.full:active { background: #166534; }
   </style>
 </head>
 <body>
 
   <header>
     <h1>🏢 AI TRADING DESK</h1>
-    <span id="status-badge">● ONLINE (5 AGENTES)</span>
+    <span id="status-badge">● 5 AGENTES ATIVOS</span>
   </header>
 
   <div id="canvas-container">
-    <canvas id="officeCanvas" width="760" height="520"></canvas>
+    <canvas id="officeCanvas" width="620" height="580"></canvas>
   </div>
 
-  <div id="log-bar"><b>[Sistema]:</b> Escritório inicializado. Toque nos botões abaixo para simular tarefas.</div>
+  <div id="log-bar"><b>[Sistema]:</b> Toque em um agente na sala ou nos botões abaixo.</div>
 
   <div id="controls">
-    <button onclick="simularEvento('reuniao')">📢 Reunião com CEO</button>
-    <button onclick="simularEvento('ideia')">🔍 Alpha Scout: Nova Ideia</button>
-    <button onclick="simularEvento('backtest')">📊 Quant: Rodar Backtest</button>
-    <button onclick="simularEvento('incubar')">🧪 Enviar p/ Incubação</button>
-    <button class="full" onclick="simularEvento('operar')">🚀 Risco OK + Executar Ordem Real</button>
+    <button onclick="simularEvento('reuniao')">📢 Reunião Geral</button>
+    <button onclick="simularEvento('ideia')">🔍 Nova Estratégia</button>
+    <button onclick="simularEvento('backtest')">📊 Rodar Backtest</button>
+    <button onclick="simularEvento('incubar')">🧪 Enviar Incubação</button>
+    <button class="full" onclick="simularEvento('operar')">🚀 Aprovar Risco + Executar Ordem Real</button>
   </div>
 
   <script>
@@ -108,30 +110,30 @@
     const ctx = canvas.getContext('2d');
     const logBar = document.getElementById('log-bar');
 
-    // Configuração das mesas (posições na grade isométrica)
+    // Estações bem espaçadas na grade 7x7
     const estacoes = {
-      ceo:       { gx: 4.5, gy: 1.8, nome: 'Sala CEO', cor: '#f59e0b' },
-      scout:     { gx: 1.5, gy: 2.2, nome: 'Pesquisa', cor: '#38bdf8' },
-      quant:     { gx: 1.5, gy: 5.5, nome: 'Lab Quant', cor: '#a855f7' },
-      incubator: { gx: 7.2, gy: 2.2, nome: 'Incubadora', cor: '#ec4899' },
-      trader:    { gx: 7.2, gy: 5.5, nome: 'Execução', cor: '#22c55e' }
+      ceo:       { gx: 3.2, gy: 0.7, nome: 'SALA CEO',   cor: '#f59e0b' },
+      scout:     { gx: 0.6, gy: 1.5, nome: 'PESQUISA',   cor: '#38bdf8' },
+      incubator: { gx: 5.5, gy: 1.5, nome: 'INCUBADORA', cor: '#ec4899' },
+      quant:     { gx: 0.6, gy: 4.8, nome: 'LAB QUANT',  cor: '#a855f7' },
+      trader:    { gx: 5.5, gy: 4.8, nome: 'EXECUÇÃO',   cor: '#22c55e' }
     };
 
-    // Agentes de IA
+    // Agentes posicionados à frente de suas mesas
     const agentes = [
-      { id: 'ceo',       nome: 'Desk Chief',  corRoupa: '#f59e0b', corPele: '#f1c27d', gx: 4.5, gy: 2.3, tx: 4.5, ty: 2.3, fala: 'Monitorando desk...', emoji: '👔', timer: 0 },
-      { id: 'scout',     nome: 'Alpha Scout', corRoupa: '#0284c7', corPele: '#e0ac69', gx: 1.5, gy: 2.7, tx: 1.5, ty: 2.7, fala: 'Buscando indicadores...', emoji: '🔍', timer: 0 },
-      { id: 'quant',     nome: 'Quant Bot',   corRoupa: '#7e22ce', corPele: '#ffdbac', gx: 1.5, gy: 6.0, tx: 1.5, ty: 6.0, fala: 'Aguardando código...', emoji: '📊', timer: 0 },
-      { id: 'incubator', nome: 'Incubator',   corRoupa: '#be185d', corPele: '#c68642', gx: 7.2, gy: 2.7, tx: 7.2, ty: 2.7, fala: '3 robôs em teste...', emoji: '⏳', timer: 0 },
-      { id: 'trader',    nome: 'Risk/Trader', corRoupa: '#15803d', corPele: '#8d5524', gx: 7.2, gy: 6.0, tx: 7.2, ty: 6.0, fala: 'Risco max 2%', emoji: '🛡️', timer: 0 }
+      { id: 'ceo',       nome: 'Desk Chief',  corRoupa: '#d97706', corCabelo: '#1e293b', corPele: '#f1c27d', gx: 3.4, gy: 1.7, tx: 3.4, ty: 1.7, fala: 'Coordenando operações.', emoji: '👔', timer: 0 },
+      { id: 'scout',     nome: 'Alpha Scout', corRoupa: '#0284c7', corCabelo: '#78350f', corPele: '#e0ac69', gx: 1.1, gy: 2.5, tx: 1.1, ty: 2.5, fala: 'Analisando indicadores...', emoji: '🔍', timer: 0 },
+      { id: 'incubator', nome: 'Incubator',   corRoupa: '#db2777', corCabelo: '#451a03', corPele: '#c68642', gx: 5.6, gy: 2.5, tx: 5.6, ty: 2.5, fala: 'Monitorando 3 robôs.', emoji: '⏳', timer: 0 },
+      { id: 'quant',     nome: 'Quant Bot',   corRoupa: '#7e22ce', corCabelo: '#0f172a', corPele: '#ffdbac', gx: 1.1, gy: 5.8, tx: 1.1, ty: 5.8, fala: 'Motor de backtest pronto.', emoji: '📊', timer: 0 },
+      { id: 'trader',    nome: 'Risk/Trader', corRoupa: '#16a34a', corCabelo: '#1e293b', corPele: '#8d5524', gx: 5.6, gy: 5.8, tx: 5.6, ty: 5.8, fala: 'Risco max: 2% por trade.', emoji: '🛡️', timer: 0 }
     ];
 
-    // Converte grade (gx, gy) para coordenadas isométricas na tela
+    // Escala ampliada para preencher bem a tela do celular
     function toIso(gx, gy) {
       const originX = canvas.width / 2;
-      const originY = 120;
-      const tileW = 72;
-      const tileH = 36;
+      const originY = 175;
+      const tileW = 84;
+      const tileH = 42;
       return {
         x: originX + (gx - gy) * (tileW / 2),
         y: originY + (gx + gy) * (tileH / 2)
@@ -142,7 +144,7 @@
       logBar.innerHTML = `<b>[${autor}]:</b> ${texto}`;
     }
 
-    function comandoAgente(id, tx, ty, fala, emoji, duracao = 240) {
+    function comandoAgente(id, tx, ty, fala, emoji, duracao = 260) {
       const ag = agentes.find(a => a.id === id);
       if (!ag) return;
       ag.tx = tx;
@@ -153,127 +155,175 @@
       log(ag.nome, fala);
     }
 
-    // Simulação dos fluxos de trading
     function simularEvento(tipo) {
       if (tipo === 'reuniao') {
-        comandoAgente('ceo', 4.5, 3.5, 'Reunião rápida! Alinhando metas.', '📢', 260);
-        comandoAgente('scout', 3.6, 3.6, 'Indo, chefe!', '🏃', 260);
-        comandoAgente('quant', 3.8, 4.4, 'Levando relatórios.', '📑', 260);
-        comandoAgente('incubator', 5.3, 3.6, 'Na escuta!', '🫡', 260);
-        comandoAgente('trader', 5.2, 4.4, 'Risco controlado.', '🛡️', 260);
+        comandoAgente('ceo', 3.4, 2.7, 'Reunião rápida no centro!', '📢', 280);
+        comandoAgente('scout', 2.4, 3.1, 'Indo, chefe!', '🏃', 280);
+        comandoAgente('quant', 2.5, 4.1, 'Levando relatórios.', '📑', 280);
+        comandoAgente('incubator', 4.4, 3.1, 'Na escuta!', '🫡', 280);
+        comandoAgente('trader', 4.3, 4.1, 'Risco 100% ok.', '🛡️', 280);
       } else if (tipo === 'ideia') {
-        comandoAgente('scout', 1.8, 5.2, 'Achei setup RSI + Volume! Levando ao Quant.', '💡', 300);
+        comandoAgente('scout', 1.3, 4.7, 'Achei setup RSI + Volume! Toma Quant!', '💡', 300);
         setTimeout(() => {
-          comandoAgente('quant', 1.5, 6.0, 'Recebido! Codificando Pine Script...', '💻', 260);
-          comandoAgente('scout', 1.5, 2.7, 'Voltando à pesquisa.', '🔍', 200);
+          comandoAgente('quant', 1.1, 5.8, 'Codificando Pine Script...', '💻', 280);
+          comandoAgente('scout', 1.1, 2.5, 'Voltando a pesquisar.', '🔍', 200);
         }, 2800);
       } else if (tipo === 'backtest') {
-        comandoAgente('quant', 1.5, 6.0, 'Backtest: Winrate 64% | Profit Factor 1.85!', '📈', 300);
+        comandoAgente('quant', 1.1, 5.8, 'Backtest: 64% Acerto | PF 1.85!', '📈', 300);
       } else if (tipo === 'incubar') {
-        comandoAgente('quant', 6.5, 2.7, 'Enviando estratégia aprovada p/ Incubação!', '📦', 300);
+        comandoAgente('quant', 4.8, 2.6, 'Estratégia aprovada p/ Incubadora!', '📦', 300);
         setTimeout(() => {
-          comandoAgente('incubator', 7.2, 2.7, 'Congelada! Testando 30 dias ao vivo.', '🧪', 280);
-          comandoAgente('quant', 1.5, 6.0, 'Pronto para próximo teste.', '✅', 200);
+          comandoAgente('incubator', 5.6, 2.5, 'Congelada! Testando 30 dias.', '🧪', 280);
+          comandoAgente('quant', 1.1, 5.8, 'Pronto p/ próximo teste.', '✅', 200);
         }, 2800);
       } else if (tipo === 'operar') {
-        comandoAgente('incubator', 6.8, 5.4, 'Incubação 100% aprovada!', '🏆', 260);
+        comandoAgente('incubator', 5.2, 4.8, 'Incubação aprovada! Pode operar!', '🏆', 260);
         setTimeout(() => {
-          comandoAgente('trader', 7.2, 6.0, 'Risco 1.5% OK! Webhook enviado p/ corretora!', '🚀', 320);
-          comandoAgente('ceo', 4.5, 2.3, 'Excelente execução, equipe!', '💰', 280);
-          comandoAgente('incubator', 7.2, 2.7, 'Monitorando próximos.', '⏳', 200);
+          comandoAgente('trader', 5.6, 5.8, 'Risco 1.5% OK! Ordem enviada!', '🚀', 320);
+          comandoAgente('ceo', 3.4, 1.7, 'Excelente lucro, equipe!', '💰', 280);
+          comandoAgente('incubator', 5.6, 2.5, 'Monitorando próximos.', '⏳', 200);
         }, 2500);
       }
     }
 
-    // Desenha um bloco isométrico (chão ou mesa)
+    // Toque direto no avatar na tela
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const clickX = (e.clientX - rect.left) * scaleX;
+      const clickY = (e.clientY - rect.top) * scaleY;
+
+      agentes.forEach(ag => {
+        const pos = toIso(ag.gx, ag.gy);
+        if (Math.abs(clickX - pos.x) < 28 && Math.abs(clickY - (pos.y - 25)) < 38) {
+          ag.timer = 220;
+          log(ag.nome, ag.fala);
+        }
+      });
+    });
+
     function drawIsoTile(gx, gy, w, d, h, colorTop, colorLeft, colorRight) {
       const p1 = toIso(gx, gy);
       const p2 = toIso(gx + w, gy);
       const p3 = toIso(gx + w, gy + d);
       const p4 = toIso(gx, gy + d);
 
-      // Lado esquerdo
       ctx.fillStyle = colorLeft;
       ctx.beginPath();
-      ctx.moveTo(p4.x, p4.y);
-      ctx.lineTo(p3.x, p3.y);
-      ctx.lineTo(p3.x, p3.y + h);
-      ctx.lineTo(p4.x, p4.y + h);
-      ctx.closePath();
-      ctx.fill();
+      ctx.moveTo(p4.x, p4.y); ctx.lineTo(p3.x, p3.y);
+      ctx.lineTo(p3.x, p3.y + h); ctx.lineTo(p4.x, p4.y + h);
+      ctx.closePath(); ctx.fill();
 
-      // Lado direito
       ctx.fillStyle = colorRight;
       ctx.beginPath();
-      ctx.moveTo(p3.x, p3.y);
-      ctx.lineTo(p2.x, p2.y);
-      ctx.lineTo(p2.x, p2.y + h);
-      ctx.lineTo(p3.x, p3.y + h);
-      ctx.closePath();
-      ctx.fill();
+      ctx.moveTo(p3.x, p3.y); ctx.lineTo(p2.x, p2.y);
+      ctx.lineTo(p2.x, p2.y + h); ctx.lineTo(p3.x, p3.y + h);
+      ctx.closePath(); ctx.fill();
 
-      // Topo
       ctx.fillStyle = colorTop;
       ctx.beginPath();
-      ctx.moveTo(p1.x, p1.y);
-      ctx.lineTo(p2.x, p2.y);
-      ctx.lineTo(p3.x, p3.y);
-      ctx.lineTo(p4.x, p4.y);
-      ctx.closePath();
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+      ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
+      ctx.lineTo(p3.x, p3.y); ctx.lineTo(p4.x, p4.y);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)';
       ctx.stroke();
     }
 
-    // Desenha o piso do escritório (9x8)
+    // Paredes estilo Habbo ao fundo
+    function drawWalls() {
+      const wallH = 85;
+      const topCorner = toIso(0, 0);
+      const leftCorner = toIso(0, 7);
+      const rightCorner = toIso(7, 0);
+
+      // Parede Esquerda
+      ctx.fillStyle = '#171d2b';
+      ctx.beginPath();
+      ctx.moveTo(leftCorner.x, leftCorner.y);
+      ctx.lineTo(topCorner.x, topCorner.y);
+      ctx.lineTo(topCorner.x, topCorner.y - wallH);
+      ctx.lineTo(leftCorner.x, leftCorner.y - wallH);
+      ctx.closePath(); ctx.fill();
+
+      // Parede Direita
+      ctx.fillStyle = '#131824';
+      ctx.beginPath();
+      ctx.moveTo(topCorner.x, topCorner.y);
+      ctx.lineTo(rightCorner.x, rightCorner.y);
+      ctx.lineTo(rightCorner.x, rightCorner.y - wallH);
+      ctx.lineTo(topCorner.x, topCorner.y - wallH);
+      ctx.closePath(); ctx.fill();
+
+      // Painel de mercado na parede direita
+      const pPainel1 = toIso(2.2, 0);
+      const pPainel2 = toIso(4.8, 0);
+      ctx.fillStyle = '#090d16';
+      ctx.beginPath();
+      ctx.moveTo(pPainel1.x, pPainel1.y - 22);
+      ctx.lineTo(pPainel2.x, pPainel2.y - 22);
+      ctx.lineTo(pPainel2.x, pPainel2.y - 68);
+      ctx.lineTo(pPainel1.x, pPainel1.y - 68);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.lineWidth = 1;
+    }
+
     function drawFloor() {
-      for (let x = 0; x < 9; x++) {
-        for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 7; x++) {
+        for (let y = 0; y < 7; y++) {
           const isAlt = (x + y) % 2 === 0;
-          drawIsoTile(
-            x, y, 1, 1, 8,
-            isAlt ? '#23293d' : '#1e2436',
-            '#151926',
-            '#11141f'
-          );
+          drawIsoTile(x, y, 1, 1, 10, isAlt ? '#242b40' : '#1e2436', '#141824', '#0f121c');
         }
       }
     }
 
-    // Desenha mesas e monitores
     function drawFurniture() {
       Object.values(estacoes).forEach(est => {
-        drawIsoTile(est.gx - 0.4, est.gy - 0.3, 1.3, 0.8, 14, '#334155', '#1e293b', '#0f172a');
-        // Monitor brilhante
-        const pos = toIso(est.gx + 0.2, est.gy);
+        // Mesa
+        drawIsoTile(est.gx, est.gy, 1.3, 0.85, 16, '#3b4761', '#232b3d', '#181e2c');
+
+        const pos = toIso(est.gx + 0.65, est.gy + 0.4);
+        // Monitor
         ctx.fillStyle = est.cor;
-        ctx.fillRect(pos.x - 10, pos.y - 16, 20, 12);
-        ctx.fillStyle = '#0f172a';
-        ctx.fillRect(pos.x - 8, pos.y - 14, 16, 8);
-        // Linha de gráfico no monitor
+        ctx.fillRect(pos.x - 13, pos.y - 22, 26, 15);
+        ctx.fillStyle = '#090d16';
+        ctx.fillRect(pos.x - 11, pos.y - 20, 22, 11);
+
+        // Gráfico verde na tela
         ctx.strokeStyle = '#4ade80';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.moveTo(pos.x - 6, pos.y - 8);
-        ctx.lineTo(pos.x - 2, pos.y - 12);
-        ctx.lineTo(pos.x + 2, pos.y - 9);
-        ctx.lineTo(pos.x + 6, pos.y - 13);
+        ctx.moveTo(pos.x - 9, pos.y - 12);
+        ctx.lineTo(pos.x - 3, pos.y - 17);
+        ctx.lineTo(pos.x + 2, pos.y - 13);
+        ctx.lineTo(pos.x + 9, pos.y - 18);
+        ctx.stroke();
+        ctx.lineWidth = 1;
+
+        // Placa da estação bem posicionada no canto da mesa (sem bater no avatar)
+        const placaPos = toIso(est.gx + 0.3, est.gy - 0.15);
+        ctx.font = 'bold 9px sans-serif';
+        const w = ctx.measureText(est.nome).width + 10;
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+        ctx.beginPath();
+        ctx.roundRect(placaPos.x - w / 2, placaPos.y - 34, w, 14, 4);
+        ctx.fill();
+        ctx.strokeStyle = est.cor;
         ctx.stroke();
 
-        // Etiqueta da estação
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = 'bold 10px sans-serif';
+        ctx.fillStyle = est.cor;
         ctx.textAlign = 'center';
-        ctx.fillText(est.nome, pos.x, pos.y + 24);
+        ctx.fillText(est.nome, placaPos.x, placaPos.y - 24);
       });
     }
 
-    // Desenha os avatares estilo Habbo
     function drawAgents(bounce) {
-      // Ordena por profundidade (gy + gx) para sobreposição correta
       const sorted = [...agentes].sort((a, b) => (a.gx + a.gy) - (b.gx + b.gy));
 
       sorted.forEach(ag => {
-        // Movimentação suave até o alvo
         const dx = ag.tx - ag.gx;
         const dy = ag.ty - ag.gy;
         const dist = Math.hypot(dx, dy);
@@ -287,74 +337,87 @@
         if (ag.timer > 0) ag.timer--;
 
         const pos = toIso(ag.gx, ag.gy);
-        const step = andando ? Math.sin(bounce * 0.25) * 3 : 0;
+        const step = andando ? Math.sin(bounce * 0.25) * 3.5 : 0;
 
-        // Sombra no chão
-        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+        // Sombra
+        ctx.fillStyle = 'rgba(0,0,0,0.45)';
         ctx.beginPath();
-        ctx.ellipse(pos.x, pos.y + 4, 12, 6, 0, 0, Math.PI * 2);
+        ctx.ellipse(pos.x, pos.y + 4, 14, 7, 0, 0, Math.PI * 2);
         ctx.fill();
 
         // Pernas
         ctx.fillStyle = '#1e293b';
-        ctx.fillRect(pos.x - 6, pos.y - 12 + step, 5, 13);
-        ctx.fillRect(pos.x + 1, pos.y - 12 - step, 5, 13);
+        ctx.fillRect(pos.x - 7, pos.y - 14 + step, 6, 15);
+        ctx.fillRect(pos.x + 1, pos.y - 14 - step, 6, 15);
 
-        // Tronco (camisa colorida)
+        // Corpo
         ctx.fillStyle = ag.corRoupa;
         ctx.beginPath();
-        ctx.roundRect(pos.x - 9, pos.y - 28, 18, 17, 4);
+        ctx.roundRect(pos.x - 11, pos.y - 33, 22, 20, 5);
         ctx.fill();
 
-        // Cabeça estilo pixel/Habbo
+        // Cabeça
         ctx.fillStyle = ag.corPele;
         ctx.beginPath();
-        ctx.roundRect(pos.x - 8, pos.y - 43, 16, 15, 5);
+        ctx.roundRect(pos.x - 10, pos.y - 51, 20, 18, 6);
+        ctx.fill();
+
+        // Cabelo
+        ctx.fillStyle = ag.corCabelo;
+        ctx.beginPath();
+        ctx.roundRect(pos.x - 10, pos.y - 53, 20, 6, 3);
         ctx.fill();
 
         // Olhos
         ctx.fillStyle = '#0f172a';
-        ctx.fillRect(pos.x - 4, pos.y - 37, 2, 3);
-        ctx.fillRect(pos.x + 2, pos.y - 37, 2, 3);
+        ctx.fillRect(pos.x - 5, pos.y - 43, 2.5, 3.5);
+        ctx.fillRect(pos.x + 2.5, pos.y - 43, 2.5, 3.5);
 
-        // Nome abaixo do avatar
-        ctx.fillStyle = '#fff';
+        // Etiqueta com fundo escuro abaixo do avatar (legibilidade perfeita)
         ctx.font = 'bold 10px sans-serif';
+        const nameW = ctx.measureText(ag.nome).width + 10;
+        ctx.fillStyle = 'rgba(13, 16, 23, 0.85)';
+        ctx.beginPath();
+        ctx.roundRect(pos.x - nameW / 2, pos.y + 8, nameW, 15, 4);
+        ctx.fill();
+
+        ctx.fillStyle = '#f8fafc';
         ctx.textAlign = 'center';
-        ctx.fillText(ag.nome, pos.x, pos.y + 16);
+        ctx.fillText(ag.nome, pos.x, pos.y + 19);
 
-        // Emoji flutuante acima da cabeça
+        // Emoji flutuante
         const floatY = Math.sin(bounce * 0.08) * 3;
-        ctx.font = '16px sans-serif';
-        ctx.fillText(ag.emoji, pos.x, pos.y - 50 + floatY);
+        ctx.font = '18px sans-serif';
+        ctx.fillText(ag.emoji, pos.x, pos.y - 59 + floatY);
 
-        // Balão de fala quando ativo
+        // Balão de fala
         if (ag.timer > 0) {
-          ctx.font = '11px sans-serif';
-          const textW = ctx.measureText(ag.fala).width + 14;
-          const bx = pos.x - textW / 2;
-          const by = pos.y - 84 + floatY;
+          ctx.font = 'bold 11px sans-serif';
+          const textW = ctx.measureText(ag.fala).width + 16;
+          let bx = pos.x - textW / 2;
+          // Evita que o balão saia fora da tela nas bordas
+          if (bx < 8) bx = 8;
+          if (bx + textW > canvas.width - 8) bx = canvas.width - textW - 8;
+          const by = pos.y - 96 + floatY;
 
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+          ctx.fillStyle = '#ffffff';
           ctx.beginPath();
-          ctx.roundRect(bx, by, textW, 20, 6);
+          ctx.roundRect(bx, by, textW, 22, 7);
           ctx.fill();
 
           ctx.fillStyle = '#0f172a';
-          ctx.fillText(ag.fala, pos.x, by + 14);
+          ctx.fillText(ag.fala, bx + textW / 2, by + 15);
         }
       });
     }
 
-    // Permite controlar o escritório via parâmetros de URL (para integração futura com n8n/Grok)
-    // Ex: ?agente=quant&fala=Lucro+de+5%&emoji=🚀
     function lerComandoURL() {
       const params = new URLSearchParams(window.location.search);
       const ag = params.get('agente');
       const fala = params.get('fala');
       const emoji = params.get('emoji') || '⚡';
       if (ag && estacoes[ag]) {
-        comandoAgente(ag, estacoes[ag].gx, estacoes[ag].gy + 0.5, fala || 'Tarefa recebida!', emoji, 400);
+        comandoAgente(ag, estacoes[ag].gx + 0.5, estacoes[ag].gy + 1.0, fala || 'Tarefa recebida!', emoji, 400);
       }
     }
 
@@ -362,6 +425,7 @@
     function loop() {
       frame++;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawWalls();
       drawFloor();
       drawFurniture();
       drawAgents(frame);
@@ -373,4 +437,3 @@
   </script>
 </body>
 </html>
-
